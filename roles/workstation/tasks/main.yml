@@ -1,0 +1,6 @@
+---
+
+- include: pre-reqs.yml
+- include: microsoft.yml
+- include: base_apps.yml
+

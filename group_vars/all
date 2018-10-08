@@ -1,0 +1,32 @@
+---
+# ossec
+ossec_version: 3.0.0
+ossec_init_name: ossec
+ossec_agent_name: "{{ ansible_hostname }}"
+ossec_server_ip: "{{ lookup('credstash', 'ossec_server.ip', region='us-east-1') }}"
+ossec_agent_name: "{{ ansible_hostname }}"
+ossec_tarball_url: "https://github.com/ossec/ossec-hids/archive/{{ ossec_version }}.tar.gz"
+ossec_install_dir: "/usr/local/src"
+# postfix
+postfix_generic: True
+postfix_generic_template: 'generic.j2'
+postfix_relayhost: "{{ lookup('credstash', 'postfix.relay_host', region='us-east-1') }}"
+postfix_relayhost_port: 25
+postfix_relaytls: true
+postfix_smtp_tls_cafile: /etc/ssl/certs/ca-certificates.crt
+postfix_sasl_auth_enable: true
+postfix_sasl_user: "{{ lookup('credstash', 'postfix.user', region='us-east-1') }}"
+postfix_sasl_password: "{{ lookup('credstash', 'postfix.pw', region='us-east-1') }}"
+postfix_sasl_security_options: noanonymous
+postfix_inet_interfaces: localhost
+postfix_inet_protocols: all
+postfix_mynetworks:
+  - "{{ lookup('credstash', 'enterprise.net', region='us-east-1') }}"
+  - "{{ lookup('credstash', 'servers.net', region='us-east-1') }}"
+  - '127.0.0.0/8'
+  - '[::ffff:127.0.0.0]/104'
+  - '[::1]/128'
+postfix_smtpd_banner: '$myhostname ESMTP $mail_name'
+postfix_smtpd_relay_restrictions: permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+postfix_disable_vrfy_command: false
+postfix_message_size_limit: 10240000

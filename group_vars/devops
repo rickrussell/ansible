@@ -1,0 +1,14 @@
+# file: group_vars/windows.yml
+ansible_user: "AnsibleDeployService"
+ansible_password: "{{ lookup('credstash', 'ansible_deploy.pw', region='us-east-1') }}"
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore
+ansible_winrm_message_encryption: auto
+ansible_winrm_transport: ntlm
+ansible_winrm_scheme: http
+ansible_winrm_port: 5985
+
+# Chocolatey Variables
+boxstarter_installer: https://boxstarter.org/bootstrapper.ps1
+boxstarter_path: c:/ProgramData/Boxstarter
+chocolatey_path: c:/ProgramData/chocolatey

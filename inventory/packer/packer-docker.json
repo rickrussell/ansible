@@ -1,0 +1,32 @@
+{
+  "builders": [
+    {
+      "type": "docker",
+      "image": "rickrussell/trusty",
+      "discard": true,
+      "pull": false
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path  }}; {{ .Vars  }} sudo -E -S bash {{ .Path  }}",
+      "script": "../../scripts/bootstrap/setup.sh"
+    },
+    {
+      "type": "ansible-local",
+      "command": "sudo ansible-playbook -vvvv",
+      "playbook_file": "./site.yml",
+      "playbook_dir": "../../roles"
+    }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "shell-local",
+        "execute_command": "chmod +x {{ .Path  }}; {{ .Vars  }} sudo {{ .Path  }}",
+        "script": "../../scripts/bootstrap/cleanup.sh"
+      }
+    ]
+  ]
+}

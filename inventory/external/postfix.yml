@@ -1,0 +1,11 @@
+---
+ - hosts: postfix
+   become: yes
+   become_method: sudo
+   roles:
+    - common
+    - postfix
+    - apparmor
+    - ossec-hids-agent
+    - stig
+    - cis

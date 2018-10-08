@@ -1,0 +1,41 @@
+{
+  "variables": {
+    "aws_source_ami": "ami-20be7540",
+    "aws_allowed_ami_users": "{{env `allowed_ami_users`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "name": "noneck-ubuntu-trusty",
+      "region": "us-west-2",
+      "source_ami": "{{user `aws_source_ami`}}",
+      "instance_type": "t2.medium",
+      "ssh_username": "ubuntu",
+      "ssh_timeout": "5m",
+      "iam_instance_profile": "packer",
+      "ami_name": "Noneck's Ubuntu Trusty Base AMI {{isotime | clean_ami_name}}",
+      "ami_regions": ["us-east-1", "us-west-2"],
+      "ami_users": "{{user `aws_allowed_ami_users`}}",
+      "run_tags": { "ClusterId": "packer" },
+      "tags": { "packer:source_ami": "{{user `aws_source_ami`}}" }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path  }}; {{ .Vars  }} sudo {{ .Path  }}",
+      "script": "../../scripts/bootstrap/setup.sh"
+    },
+    {
+      "type": "ansible-local",
+      "command": "sudo -H ansible-playbook -vvv",
+      "playbook_file": "./site.yml",
+      "playbook_dir": "../../roles"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path  }}; {{ .Vars  }} sudo {{ .Path  }}",
+      "script": "../../scripts/bootstrap/cleanup.sh"
+    }
+  ]
+}

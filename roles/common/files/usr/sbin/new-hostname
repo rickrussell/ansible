@@ -1,0 +1,42 @@
+#!/usr/bin/env python
+
+import socket
+from subprocess import call
+
+hosts_template = """127.0.0.1 {hostname} localhost statsd
+{ip} {fqdn} {hostname}
+
+# The following lines are desirable for IPv6 capable hosts
+::1 ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts
+"""
+
+# reset /etc/hosts
+with open('/etc/hosts', 'w') as f:
+  f.write(hosts_template.format(hostname='localhost', fqdn='#', ip='#'))
+
+# get hostname from reverse dns lookup
+while True:
+  try:
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    ip = s.getsockname()[0]
+    fqdn = socket.gethostbyaddr(ip)[0]
+    hostname = fqdn.split('.')[0]
+  except socket.error as err:
+    continue
+  break
+
+# write hostname and ip to /etc/hosts
+with open('/etc/hosts', 'w') as f:
+  f.write(hosts_template.format(hostname=hostname, fqdn=fqdn, ip=ip))
+
+# write hostname to /etc/hostname
+with open('/etc/hostname', 'w') as f:
+  f.write(hostname)
+
+call(['hostnamectl', 'set-hostname', hostname])
