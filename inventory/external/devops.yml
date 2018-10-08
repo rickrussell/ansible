@@ -1,0 +1,7 @@
+---
+- hosts: devops
+  gather_facts: False
+  connection: winrm
+  roles:
+   - workstation
+   - devops

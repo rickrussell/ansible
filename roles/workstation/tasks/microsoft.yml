@@ -1,0 +1,49 @@
+---
+- name: Installing Visual C++ Runtime Environment 2005 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2005
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2008 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2008
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2010 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2010
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2012 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2012
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2013 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2013
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2015 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist2015
+    state: latest
+    allow_prerelease: no
+
+- name: Installing Visual C++ Runtime Environment 2017 is installed via Chocolatey
+  win_chocolatey:
+    name: vcredist140
+    state: latest
+    allow_prerelease: no
+
+- name: Installing .NET 4.6.2 is installed via Chocolatey
+  win_chocolatey:
+    name: dotnet4.6.2
+    state: latest
+    allow_prerelease: no
+

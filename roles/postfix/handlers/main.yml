@@ -1,0 +1,34 @@
+# handlers file for postfix
+---
+- name: new aliases
+  command: newaliases
+
+- name: new virtual aliases
+  command: postmap hash:/etc/postfix/virtual
+
+- name: postmap sasl_passwd
+  command: postmap hash:/etc/postfix/sasl_passwd
+
+- name: postmap sender_canonical_maps
+  command: postmap hash:/etc/postfix/sender_canonical_maps
+
+- name: postmap generic
+  command: postmap hash:/etc/postfix/generic
+
+- name: restart postfix
+  command: /bin/true
+  notify:
+    - remove pid
+    - restart service
+
+- name: remove pid
+  file:
+    path: "~postfix/pid/master.pid"
+    state: absent
+  when: is_docker_guest
+
+- name: restart service
+  service:
+    name: postfix
+    state: restarted
+  when: service_default_state | default('started') == 'started'

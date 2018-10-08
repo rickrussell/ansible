@@ -1,0 +1,25 @@
+---
+- include: apt.yml
+- include: limits.yml
+- include: new-hostname.yml
+
+- name: 'Run an upgrade'
+  apt:
+    update_cache: yes
+    upgrade: yes
+
+- name: 'Add common packages'
+  apt: name="{{ item }}" state=latest update_cache=yes
+  with_items:
+    - build-essential
+    - ca-certificates
+    - curl
+    - nmon
+    - jq
+    - mdadm
+    - openntpd
+    - python
+    - python-pip
+    - ssh
+    - sysstat
+    - unzip

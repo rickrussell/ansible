@@ -1,0 +1,8 @@
+# Only needed for virtualized hosts
+- name: 'Force PRNG pollinate task to regenerate seed'
+  copy:
+    src: etc/init.d/pollinate
+    dest: /etc/init.d/pollinate
+    owner: root
+    group: root
+    mode: 0644

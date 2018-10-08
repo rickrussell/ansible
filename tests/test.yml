@@ -1,0 +1,12 @@
+# test file for postfix
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - common
+    - apparmor
+    - ossec-hids-agent
+    - postfix
+    # - stig
+    # - cis

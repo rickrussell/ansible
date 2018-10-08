@@ -1,0 +1,8 @@
+---
+- name: ensure Git for Windows is installed via Chocolatey
+  win_chocolatey:
+    name: git.install
+    params: "/GitAndUnixToolsOnPath /NoGitLfs /SChannel /NoAutoCrlf"
+    state: latest
+    allow_prerelease: no
+

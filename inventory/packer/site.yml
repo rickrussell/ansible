@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: local
+  become: true
+  become_method: sudo
+  roles:
+    - common
+    - apparmor
+    - ossec-hids-agent
+    - stig
+    - cis
+   vars:
+    - ossec_version: 3.0.0
+    - ossec_init_name: ossec
+    - ossec_server_ip: "{{ lookup('credstash', 'ossec_server.ip', region='us-east-1') }}"
+    - ossec_agent_name: "{{ ansible_hostname }}"
+    - ossec_tarball_url: "https://github.com/ossec/ossec-hids/archive/{{ ossec_version }}.tar.gz"
+    - ossec_install_dir: "/usr/local/src"

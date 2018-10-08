@@ -1,0 +1,7 @@
+- name: 'Increase system limits'
+  lineinfile:
+    dest: /etc/security/limits.conf
+    line: "{{ item }}"
+  with_items:
+    - '* soft nofile 65536'
+    - '* hard nofile 65536'

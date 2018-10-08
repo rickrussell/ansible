@@ -1,0 +1,14 @@
+- name: 'Install custom /etc/init/hostname.conf'
+  copy:
+    src: etc/init/hostname.conf
+    dest: /etc/init/hostname.conf
+    owner: root
+    group: root
+    mode: 0644
+- name: 'Install new-hostname script'
+  copy:
+    src: usr/sbin/new-hostname
+    dest: /usr/sbin/new-hostname
+    owner: root
+    group: root
+    mode: 0755

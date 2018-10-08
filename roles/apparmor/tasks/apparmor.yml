@@ -1,0 +1,42 @@
+---
+- name: (APPARMOR) Install AppArmor
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - apparmor
+    - apparmor-profiles
+    - apparmor-utils
+
+- name: (APPARMOR) Check if GRUB already contains AppArmor option
+  command: cat /etc/default/grub
+  register: grub
+  changed_when: false
+  failed_when: false
+
+- name: (APPARMOR) Make sure SecurityFS is mounted at boot
+  lineinfile:
+    path: /etc/default/grub
+    backrefs: yes
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT'
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="{{ grub_default_options }}"'
+    state: present
+  register: modifygrub
+  when: ('apparmor' not in grub.stdout)
+
+- name: (APPARMOR) Update GRUB
+  command: update-grub
+  when: modifygrub|changed
+  register: updategrub
+
+- name: (APPARMOR) Reboot the server to enable AppArmor
+  shell: sleep 1 && shutdown -r now
+  async: 1
+  poll: 0
+  when: updategrub|changed
+  register: reboot
+
+- name: (APPARMOR) Wait for server to come back online
+  local_action: wait_for host={{ inventory_hostname }} port=22 state=started delay=30
+  become: false
+  when: reboot|changed

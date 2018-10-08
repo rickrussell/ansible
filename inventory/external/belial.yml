@@ -1,0 +1,17 @@
+---
+ - hosts: belial
+   connection:
+   become: yes
+   become_method: sudo
+   roles:
+     - { role: '../../roles/common' }
+       # - { role: '../../roles/apparmor' }
+       # - { role: '../../roles/ossec-hids-agent' }
+       # - { role: '../../roles/cis' }
+       # - { role: '../../roles/stig' }
+   vars:
+      ossec_version: "3.0.0"
+      ossec_server_ip: "{{ ossec_server_ip }}"
+      ossec_init_name: ossec
+      ossec_install_dir: /usr/local/src
+      ossec_tarball_url: "https://github.com/ossec/ossec-hids/archive/"

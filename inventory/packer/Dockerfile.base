@@ -1,0 +1,38 @@
+# Ansible Environment Image
+#
+# NAME rickrussell/ansible
+# VERSION 2.2.2
+
+FROM debian:stretch
+
+MAINTAINER Rick Russell <sysadmin.rick@gmail.com>
+
+# Install dependencies
+RUN buildDeps=' \
+      build-essential \
+      libffi-dev \
+      libssl-dev \
+      python-dev \
+      python-setuptools \
+    ' \
+    && set -x \
+    && apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install --no-install-recommends --fix-missing -y \
+      $buildDeps \
+      ca-certificates \
+      openssl \
+      curl \
+      git \
+      python \
+    && easy_install pip \
+    && pip install pyOpenSSL ndg-httpsclient pyasn1 ansible boto boto3 cryptography \
+    && pip install python-dateutil --upgrade \
+    && pip install pytz --upgrade \
+    && apt-get purge -y --auto-remove \
+      -o APT::AutoRemove::RecommendsImportant=false \
+      -o APT::AutoRemove::SuggestsImportant=false \
+      $buildDeps \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN groupadd -g 1001 gitlab && useradd -u 1001 -g 1001 gitlab

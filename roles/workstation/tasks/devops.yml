@@ -1,0 +1,12 @@
+---
+
+- name: test ping from win_command module
+  win_command: ping 192.168.28.201
+  register: ping_ok
+
+- include: pre-reqs.yml
+- include: microsoft.yml
+- include: base_apps.yml
+- include: devops_apps.yml
+
+

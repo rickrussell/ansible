@@ -1,0 +1,4 @@
+---
+# Install and configure AppArmor
+- include_tasks: apparmor.yml
+  when: ansible_os_family == "Debian"

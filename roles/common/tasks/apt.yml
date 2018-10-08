@@ -1,0 +1,8 @@
+---
+- name: 'Default apt to --no-install-recommends'
+  copy:
+    src: etc/apt/apt.conf.d/99local
+    dest: /etc/apt/apt.conf.d/99local
+    owner: root
+    group: root
+    mode: 0644

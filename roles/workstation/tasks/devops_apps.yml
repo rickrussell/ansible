@@ -1,0 +1,15 @@
+---
+- name: Run powershell script
+  script: ../../../scripts/bootstrap_win_10/devops_apps.ps1
+
+- name: ensure 7-Zip is installed via Chocolatey
+  win_chocolatey:
+    name: 7zip.install
+    state: latest
+    allow_prerelease: no
+
+- name: ensure Firefox is installed via Chocolatey
+  win_chocolatey:
+    name: firefox
+    state: latest
+    allow_prerelease: no

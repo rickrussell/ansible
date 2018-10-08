@@ -1,0 +1,40 @@
+- name: Create our src dir
+  file:
+    path: "{{ ossec_install_dir }}"
+    state: directory
+    mode: 0755
+
+- name: Unarchive ossec from url
+  unarchive:
+    src: "{{ ossec_tarball_url }}"
+    dest: "{{ ossec_install_dir }}/ossec-hids-{{ossec_version}}"
+    remote_src: yes
+
+- name: Copy over preloaded-vars.conf
+  copy:
+    src: ../files/preloaded-vars.conf
+    dest: "{{ ossec_install_dir }}/ossec-hids-{{ ossec_version }}/etc"
+
+- name: Installing ossec
+  shell: "./install.sh"
+  args:
+    chdir: "{{ ossec_install_dir }}/ossec-hids-{{ ossec_version }}"
+
+#- name: Register ossec client
+#  shell: "/var/ossec/bin/agent-auth -m {{ ossec_server_ip|default(ossec_server_fqdn) }} -p 1515 -A '{{ ossec_agent_name|default(ansible_hostname) }}'"
+#  args:
+#    creates: /var/ossec/etc/client.keys
+#  tags:
+#    - config
+#    - skip_ansible_lint
+#
+#- name: Set permissions on client.keys file
+#  file:
+#    dest: /var/ossec/etc/client.keys
+#    mode: 0640
+#
+#- name: Start ossec-agent if not already running
+#  service:
+#    name: "{{ ossec_init_name }}"
+#    state: started
+#    enabled: yes
