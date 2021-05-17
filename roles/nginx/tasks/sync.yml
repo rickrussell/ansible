@@ -1,0 +1,9 @@
+- name: "sync website"
+  synchronize:
+    src: "{{ code_folder }}/{{ domain }}"
+    dest: /var/www/{{ domain }}
+    archive: no
+    checksum: yes
+    recursive: yes
+    delete: yes
+  become: yes

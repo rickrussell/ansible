@@ -1,7 +1,0 @@
-- name: 'Force PRNG pollinate task to regenerate seed'
-  copy:
-    src: etc/init/pollinate.conf
-    dest: /etc/init/pollinate.conf
-    owner: root
-    group: root
-    mode: 0644

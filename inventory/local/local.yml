@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  become_method: sudo
+  vars:
+    domain: example.com
+    code_folder: /home/vagrant/code
+    ansible_user: vagrant
+    port: "8080"
+  roles:
+    - common
+    #- nginx
+    # - apparmor
+    # - ossec-hids-agent
+    # - stig
+    # - cis
