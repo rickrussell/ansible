@@ -2,15 +2,6 @@
 - include: apt.yml
 - include: limits.yml
 
-# - name: Which kernel is installed?
-#   shell: uname -a | cut -d " " -f 3
-#   changed_when: False
-#   register: uname
-
-# - shell: uname -r
-#   ignore_errors: yes
-#   register: uname
-
 - name: "Run an upgrade"
   apt:
     update_cache: yes
@@ -45,11 +36,8 @@
     - libsqlite3-dev
     - libssl-dev
     - libxml2-dev
-    - libxml2-
     - libxslt1-dev
     - libyaml-dev
-    # - linux-headers-{{ansible_kernel}}
-    # - linux-image-{{ansible_kernel}}
     - locate
     - lsb-release
     - lynx
